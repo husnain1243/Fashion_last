@@ -352,7 +352,7 @@
     width: 100%;
     height: 100%;
   }
-  .Latestoutfit_container .rec.rec-arrow , .data_container .rec.rec-arrow{
+  .Latestoutfit_container .rec.rec-arrow {
     display: block;
   }
 }
