@@ -23,7 +23,6 @@ function RenderingArrayOfObjects({ image_url, products }) {
                     </div>
                 </div>
             </div>
-
         </div>
     )
 }

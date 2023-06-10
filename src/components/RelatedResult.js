@@ -9,7 +9,7 @@ class RelatedResult extends Component {
     this.breakPoints = [
       { width: 375, itemsToShow: 1, itemsToScroll: 1, pagination: false },
       { width: 768, itemsToShow: 2, itemsToScroll: 1 },
-      { width: 992, itemsToShow: 2, itemsToScroll: 1 },
+      { width: 992, itemsToShow: 4, itemsToScroll: 1 },
     ];
   }
   render() {
@@ -28,17 +28,17 @@ class RelatedResult extends Component {
                   <img
                     src={product.image}
                     alt="image"
-                    className="img-fluid rounded"
+                    className="rounded img-fluid mx-auto d-block"
                   />
                 </div>
-                <div className="List-related-result-body d-flex text-start flex-column align-items-start px-4">
+                <div className="List-related-result-body d-flex text-start flex-column align-items-start px-3">
                   <h3>{product.title}</h3>
                   <h3>{rawPrice}</h3>
                   <a href={product.link}>
                     <img
                       src={arrowImg}
                       alt="Arrow"
-                      className="img-fluid rounded-circle"
+                      className="rounded-circle img-fluid mx-auto d-block"
                     />
                   </a>
                 </div>
