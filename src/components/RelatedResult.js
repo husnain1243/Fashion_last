@@ -14,7 +14,7 @@ class RelatedResult extends Component {
   }
   render() {
     const { products } = this.props;
-    return (g
+    return (
       <div>
         <Carousel breakPoints={this.breakPoints}>
           {products.map((product, index) => {
