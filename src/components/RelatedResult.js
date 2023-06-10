@@ -9,7 +9,7 @@ class RelatedResult extends Component {
     this.breakPoints = [
       { width: 375, itemsToShow: 1, itemsToScroll: 1, pagination: false },
       { width: 768, itemsToShow: 2, itemsToScroll: 1 },
-      { width: 992, itemsToShow: 3, itemsToScroll: 1 },
+      { width: 992, itemsToShow: 2, itemsToScroll: 1 },
     ];
   }
   render() {
