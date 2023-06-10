@@ -16,18 +16,18 @@ export const Footer_Dextop_Nav = () => {
         <Icon/>
         </div>
             <div className="d-none d-md-flex col-md-2 d-flex flex-column gap-3">
-            <h3>Product</h3>
+            <h4>Product</h4>
             <Link className="header_data_a text-dark text-decoration-none" to="/product_overview"> Overview</Link>
             <Link className="header_data_a text-dark text-decoration-none" to="/customer_stories"> Customer Stories</Link>
             <Link className="header_data_a text-dark text-decoration-none" to="/safety_standerds"> Safety Standards</Link>
             </div>
             <div className="d-none d-md-flex col-md-2 d-flex flex-column gap-3">
-            <h3>Research</h3>
+            <h4>Research</h4>
             <Link className="header_data_a text-dark text-decoration-none" to="/reserch_overview"> Overview</Link>
             <Link className="header_data_a text-dark text-decoration-none" to="/index_"> Index </Link>
             </div>
             <div className="d-none d-md-flex col-md-2 d-flex flex-column gap-3">
-            <h3>Company</h3>
+            <h4>Company</h4>
             <Link className="header_data_a text-dark text-decoration-none" to="/about_" > About</Link>
             <Link className="header_data_a text-dark text-decoration-none" to="/blog_"> Blog </Link>
             <Link className="header_data_a text-dark text-decoration-none" to="/career_"> Career </Link>

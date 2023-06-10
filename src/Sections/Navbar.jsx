@@ -19,7 +19,7 @@ export const Navbar = () => {
         <div className="container">
           <div className="row mb-2 py-3 px-lg-5">
             <div className="col-6 text-start text-white">
-              <h2>Fashion.ai</h2>
+              <h1>Fashion.ai</h1>
             </div>
 
             <NavBarlinks />
