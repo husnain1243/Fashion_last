@@ -11,7 +11,7 @@ export const Footer_Dextop_Nav = () => {
   return (
     <div className="row footer-top py-5 px-lg-5 text-start">
         <div className="footer-top-container col-12 col-md-6 d-flex flex-column justify-content-between text-start align-items-center">
-        <h3 className="text-left mb-5 w-100">Fashion.ai</h3>
+        <h3 className="text-left mb-5 w-100">STYLENOVA.AI</h3>
         <Accordian />
         <Icon/>
         </div>
