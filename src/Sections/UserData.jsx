@@ -15,7 +15,13 @@ const style = [
     name: "Casual",
   },
   {
+    name: "Business Casual",
+  },
+  {
     name: "Formal",
+  },
+  {
+    name: "Athleisure",
   },
   {
     name: "Streetwear",
@@ -26,6 +32,15 @@ const style = [
   {
     name: "Vintage",
   },
+  {
+    name: "Preppy",
+  },
+  {
+    name: "Punk"
+  },
+  {
+    name: "Minimalist"
+  }
 ];
 
 const gender = [
@@ -39,6 +54,36 @@ const gender = [
     name: "other",
   },
 ];
+
+const Loader = () => {
+  return (
+    <div
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', /* Adjust the transparency by changing the last value (0.5) */
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 9999, // Ensure the loader appears above other content
+      }}
+    >
+      <Oval
+        height={80}
+        width={80}
+        color="#4fa94d"
+        secondaryColor="#4fa94d"
+        strokeWidth={4}
+        strokeWidthSecondary={2}
+      />
+    </div>
+  );
+};
+
+
 
 export const UserData = () => {
   const [clickedButtonIndex, setClickedButtonIndex] = useState(null);
@@ -98,35 +143,11 @@ export const UserData = () => {
         })
         .catch((error) => {
           console.log(error);
+          setIsLoading(false);
         });
     }
   }, [keywords, recordId]);
 
-
-  if (isLoading) {
-    return (
-      <div
-        style={{
-          height: '100vh',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#000000',
-        }}
-      >
-        <Oval height={80}
-          width={80}
-          color="#4fa94d"
-          wrapperStyle={{}}
-          wrapperClass=""
-          visible={true}
-          ariaLabel='oval-loading'
-          secondaryColor="#4fa94d"
-          strokeWidth={4}
-          strokeWidthSecondary={2} />
-      </div>
-    );
-  }
 
 
   const handleImageUpload = (event) => {
@@ -150,6 +171,7 @@ export const UserData = () => {
 
   return (
     <div className="data_container py-3 py-lg-5">
+      {isLoading && <Loader />}
       <div className="container">
         <div className="row">
           <div className="col-12">
@@ -188,7 +210,7 @@ export const UserData = () => {
                   <h3 className="text-white">Select Your Style</h3>
 
                   {/* SearchBar...... */}
-                  <div className="search_container d-flex flex-row justify-content-center align-items-center mb-5 btn_form">
+                  {/* <div className="search_container d-flex flex-row justify-content-center align-items-center mb-5 btn_form">
                     <img
                       src={search_vector}
                       alt="search"
@@ -203,7 +225,7 @@ export const UserData = () => {
                         }
                       />
                     </Form.Group>
-                  </div>
+                  </div> */}
 
                   {/* SearchBar options..... */}
                   <div className="button_container mb-4 d-flex justify-content-center gap-2 flex-wrap">
@@ -306,6 +328,7 @@ export const UserData = () => {
         </div>
       </div>
       {/* 👇️ Result show on click */}
+      {isLoading &&   <h5>Please wait… the generation can take up to 20 seconds</h5>}
       {generatedImage && products && (
         <Results image_url={generatedImage} products={products} />
       )}
