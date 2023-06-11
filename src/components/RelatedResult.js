@@ -7,7 +7,7 @@ class RelatedResult extends Component {
   constructor(props) {
     super(props);
     this.breakPoints = [
-      { width: 375, itemsToShow: 1, itemsToScroll: 1, pagination: false },
+      { width: 375, itemsToShow: 1, itemsToScroll: 1, pagination: false},
       { width: 768, itemsToShow: 2, itemsToScroll: 1 },
       { width: 992, itemsToShow: 4, itemsToScroll: 1 },
     ];
