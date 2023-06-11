@@ -27,8 +27,7 @@ function RenderingArrayOfObjects({ image_url, products }) {
     )
 }
 export const Results = ({ image_url, products }) => {
-    console.log(products)
     return (
-        < RenderingArrayOfObjects image_url = { image_url } products = { products } />    
+        < RenderingArrayOfObjects image_url={image_url} products={products} />
     )
 }

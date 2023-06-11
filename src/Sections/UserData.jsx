@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import search_vector from "../images/search-vector.png";
 import { Results } from "../components/Result";
+import { Oval } from 'react-loader-spinner'
 import "../style/boostrap.css";
 import "../style/custom.css";
 
@@ -53,6 +54,9 @@ export const UserData = () => {
   const [generatedImage, setGeneratedImage] = useState(null);
   const [keywords, setKeywords] = useState(null);
   const [products, setProducts] = useState(null);
+  const [recordId, setRecordId] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
 
   const ShownResult = (event) => {
     event.preventDefault();
@@ -63,11 +67,13 @@ export const UserData = () => {
     formData.append("style", selectedStyle);
     formData.append("gender", selectedGender);
     formData.append("age", age);
+    setIsLoading(true);
     axios
       .post(`${API_URL}/api/submit_image_details`, formData)
       .then((response) => {
         setGeneratedImage(response.data.generated_image_url);
         setKeywords(response.data.keywords);
+        setRecordId(response.data.id)
         // console.log(response);
       })
       .catch((error) => {
@@ -77,18 +83,51 @@ export const UserData = () => {
 
   useEffect(() => {
     if (keywords) {
-      axios
-        .post(`${API_URL}/api/get_products`, {
-          keywords: keywords,
+      const keyword_array = keywords.split(',');
+      const requests = keyword_array.map((keyword) =>
+        axios.post(`${API_URL}/api/get_products`, {
+          keyword: keyword.trim(), // Trim whitespace around keywords
+          id: recordId,
         })
-        .then((response) => {
-          setProducts(response.data);
+      );
+      Promise.all(requests)
+        .then((responses) => {
+          const product_list = responses.flatMap((response) => response.data);
+          setProducts(product_list);
+          setIsLoading(false);
         })
         .catch((error) => {
           console.log(error);
         });
     }
-  }, [keywords]);
+  }, [keywords, recordId]);
+
+
+  if (isLoading) {
+    return (
+      <div
+        style={{
+          height: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#000000',
+        }}
+      >
+        <Oval height={80}
+          width={80}
+          color="#4fa94d"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+          ariaLabel='oval-loading'
+          secondaryColor="#4fa94d"
+          strokeWidth={4}
+          strokeWidthSecondary={2} />
+      </div>
+    );
+  }
+
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -169,9 +208,8 @@ export const UserData = () => {
                   {/* SearchBar options..... */}
                   <div className="button_container mb-4 d-flex justify-content-center gap-2 flex-wrap">
                     {style.map((item, index) => {
-                      const btnClasses = `styleBtn${
-                        clickedButtonIndex === index ? " active" : ""
-                      }`;
+                      const btnClasses = `styleBtn${clickedButtonIndex === index ? " active" : ""
+                        }`;
 
                       return (
                         <button
@@ -195,9 +233,8 @@ export const UserData = () => {
                   >
                     <div className="button_container mb-3 d-flex justify-content-center gap-1 flex-wrap">
                       {gender.map((item, index) => {
-                        const btnClasses = `stylegender${
-                          clickedButtonGender === index ? " active" : ""
-                        }`;
+                        const btnClasses = `stylegender${clickedButtonGender === index ? " active" : ""
+                          }`;
 
                         return (
                           <button

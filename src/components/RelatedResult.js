@@ -18,7 +18,6 @@ class RelatedResult extends Component {
       <div>
         <Carousel breakPoints={this.breakPoints}>
           {products.map((product, index) => {
-            const rawPrice = product?.price?.raw || "";
             return (
               <div
                 className="List-related-result text-white rounded mb-5 d-flex flex-row align-items-center w-75 px-2"
@@ -26,15 +25,15 @@ class RelatedResult extends Component {
               >
                 <div className="List-image-container">
                   <img
-                    src={product.image}
+                    src={product.product_image_url}
                     alt="image"
                     className="rounded img-fluid mx-auto d-block"
                   />
                 </div>
                 <div className="List-related-result-body d-flex text-start flex-column align-items-start px-3">
-                  <h3>{product.title}</h3>
-                  <h3>{rawPrice}</h3>
-                  <a href={product.link}>
+                  <h3>{product.product_name}</h3>
+                  <h3>{product.product_price}</h3>
+                  <a href={product.product_url}>
                     <img
                       src={arrowImg}
                       alt="Arrow"
