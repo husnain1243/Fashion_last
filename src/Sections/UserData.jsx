@@ -129,15 +129,26 @@ export const UserData = () => {
   useEffect(() => {
     if (keywords) {
       const keyword_array = keywords.split(',');
-      const requests = keyword_array.map((keyword) =>
-        axios.post(`${API_URL}/api/get_products`, {
-          keyword: keyword.trim(), // Trim whitespace around keywords
-          id: recordId,
-        })
-      );
+      const requests = keyword_array.map((keyword) => {
+        return new Promise((resolve) => {
+          axios.post(`${API_URL}/api/get_products`, {
+            keyword: keyword.trim(),
+            id: recordId,
+          })
+            .then((response) => resolve(response))
+            .catch((error) => resolve({ error }));
+        });
+      });
+  
       Promise.all(requests)
         .then((responses) => {
-          const product_list = responses.flatMap((response) => response.data);
+          const product_list = responses.flatMap((response) => {
+            if (response.error) {
+              console.log(response.error);
+              return [];
+            }
+            return response.data;
+          });
           setProducts(product_list);
           setIsLoading(false);
         })
@@ -147,6 +158,7 @@ export const UserData = () => {
         });
     }
   }, [keywords, recordId]);
+  
 
 
 
