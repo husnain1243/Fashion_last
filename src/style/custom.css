@@ -127,7 +127,7 @@
 .border-dashed {
   border-style: dashed;
 }
-.Latestoutfit_container .rec.rec-arrow,
+
 .Latestoutfit_container .rec-pagination,
 .result_container .rec.rec-arrow,
 .result_container .rec-pagination {
@@ -144,7 +144,7 @@
 .data_container .image-select-img img,
 .result_container .result_List-image-container img {
   max-width: 100%;
-  height: auto;
+  height: 100%;
 }
 .List-related-result-body h3 {
   font-family: "Raleway";
@@ -287,13 +287,10 @@
   width: 300px;
   height: 300px;
 }
-.List-related-result .List-image-container{
-  width: 80px !important;
-  height: 80px !important;
-}
+
 .List-related-result .List-image-container img{
-  max-width: 100%;
-  height: auto;
+  width: 80px;
+  height: 80px;
 }
 .List-related-result{
   background: #1A1B1D;
@@ -390,7 +387,7 @@
   .data_container .image-select-img img,
   .result_container .result_List-image-container img {
     max-width: 100%;
-    height: auto;
+    height: 100%;
   }
   .Latestoutfit_container .rec.rec-arrow {
     display: block;
