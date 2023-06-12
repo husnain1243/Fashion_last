@@ -10,6 +10,8 @@ import "../style/custom.css";
 
 import axios from "axios";
 import { API_URL } from "../utils/constants";
+import RelatedResult from "../components/RelatedResult";
+import ProductSlider from "../components/ProductSlider";
 const style = [
   {
     name: "Casual",
@@ -139,7 +141,7 @@ export const UserData = () => {
             .catch((error) => resolve({ error }));
         });
       });
-  
+
       Promise.all(requests)
         .then((responses) => {
           const product_list = responses.flatMap((response) => {
@@ -158,7 +160,7 @@ export const UserData = () => {
         });
     }
   }, [keywords, recordId]);
-  
+
 
 
 
@@ -340,9 +342,12 @@ export const UserData = () => {
         </div>
       </div>
       {/* 👇️ Result show on click */}
-      {isLoading &&   <h5>Please wait… the generation can take up to 20 seconds</h5>}
-      {generatedImage && products && (
-        <Results image_url={generatedImage} products={products} />
+      {isLoading && <h5>Please wait… the generation can take up to 20 seconds</h5>}
+      {generatedImage && (
+        <Results image_url={generatedImage}/>
+      )}
+      {products && (
+        <ProductSlider products={products} />
       )}
     </div>
   );

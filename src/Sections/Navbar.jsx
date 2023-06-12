@@ -30,7 +30,7 @@ export const Navbar = () => {
               onClick={handleButtonClick}
               style={{ width: "150px" }}
             >
-              <p>Scrol to bottom</p>
+              <p>Scroll to bottom</p>
               <img src={ScrolImg} alt="img" />
             </button>
           </div>
