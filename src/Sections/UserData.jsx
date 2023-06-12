@@ -111,8 +111,8 @@ export const UserData = () => {
     formData.append("image", selectedImage);
     formData.append("height", height);
     formData.append("weight", weight);
-    formData.append("style", selectedStyle);
-    formData.append("gender", selectedGender);
+    formData.append("style", selectedStyle.name);
+    formData.append("gender", selectedGender.name);
     formData.append("age", age);
     setIsLoading(true);
     axios

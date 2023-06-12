@@ -13,9 +13,9 @@ const Home = () => {
       <Navbar />
       <UserData />
       <LatestOutfit />
-      <AboutUs />
-      <Subscribe />
-      <Footer />
+      {/* <AboutUs /> */}
+      {/* <Subscribe /> */}
+      {/* <Footer /> */}
     </div>
   );
 };
