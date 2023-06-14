@@ -4,14 +4,15 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import search_vector from "../images/search-vector.png";
 import { Results } from "../components/Result";
-import { Oval } from 'react-loader-spinner'
 import "../style/boostrap.css";
 import "../style/custom.css";
 
 import axios from "axios";
 import { API_URL } from "../utils/constants";
-import RelatedResult from "../components/RelatedResult";
+import toast from 'react-hot-toast';
 import ProductSlider from "../components/ProductSlider";
+import Loader from "../components/Loader";
+
 const style = [
   {
     name: "Casual",
@@ -42,49 +43,26 @@ const style = [
   },
   {
     name: "Minimalist"
+  },
+  {
+    name: "Hipster"
+  },
+  {
+    name: "Festival"
   }
 ];
 
 const gender = [
   {
-    name: "male",
+    name: "Male",
   },
   {
-    name: "female",
+    name: "Female",
   },
   {
-    name: "other",
+    name: "Other",
   },
 ];
-
-const Loader = () => {
-  return (
-    <div
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)', /* Adjust the transparency by changing the last value (0.5) */
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        zIndex: 9999, // Ensure the loader appears above other content
-      }}
-    >
-      <Oval
-        height={80}
-        width={80}
-        color="#4fa94d"
-        secondaryColor="#4fa94d"
-        strokeWidth={4}
-        strokeWidthSecondary={2}
-      />
-    </div>
-  );
-};
-
 
 
 export const UserData = () => {
@@ -102,48 +80,106 @@ export const UserData = () => {
   const [keywords, setKeywords] = useState(null);
   const [products, setProducts] = useState(null);
   const [recordId, setRecordId] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [description, setDescription] = useState(null);
+  const [input_image_url, setInput_image_url] = useState(null);
+  const [isLoadingImage, setIsLoadingImage] = useState(false);
+  const [isLoadingProducts, setIsLoadingProducts] = useState(false);
 
 
-  const ShownResult = (event) => {
+  const handleError = (error) => {
+    console.error("An error occurred:", error);
+    toast.error(error); // Show error toast notification
+  };
+
+
+  const ShownResult = async (event) => {
     event.preventDefault();
-    const formData = new FormData();
-    formData.append("image", selectedImage);
-    formData.append("height", height);
-    formData.append("weight", weight);
-    formData.append("style", selectedStyle.name);
-    formData.append("gender", selectedGender.name);
-    formData.append("age", age);
-    setIsLoading(true);
-    axios
-      .post(`${API_URL}/api/submit_image_details`, formData)
-      .then((response) => {
-        setGeneratedImage(response.data.generated_image_url);
-        setKeywords(response.data.keywords);
-        setRecordId(response.data.id)
-        // console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    setIsLoadingImage(true);
+    setIsLoadingProducts(true);
+    setGeneratedImage(null);
+    setProducts(null);
+    try {
+      const formData = new FormData();
+      formData.append("style", selectedStyle.name);
+      formData.append("gender", selectedGender.name);
+      formData.append("age", age);
+      formData.append("height", height);
+      formData.append("weight", weight);
+
+      const chatGptResponse = await axios.post(`${API_URL}/api/get_chatgpt_response`, formData);
+      const { keywords, description } = chatGptResponse.data;
+
+      setKeywords(keywords);
+      setDescription(description);
+    } catch (error) {
+      handleError(error);
+    }
   };
 
   useEffect(() => {
-    if (keywords) {
-      const keyword_array = keywords.split(',');
-      const requests = keyword_array.map((keyword) => {
-        return new Promise((resolve) => {
-          axios.post(`${API_URL}/api/get_products`, {
-            keyword: keyword.trim(),
-            id: recordId,
-          })
-            .then((response) => resolve(response))
-            .catch((error) => resolve({ error }));
-        });
-      });
+    const getLeonardoResponse = async () => {
+      if (description) {
+        try {
+          const formData = new FormData();
+          formData.append("image", selectedImage);
+          formData.append("description", description);
 
-      Promise.all(requests)
-        .then((responses) => {
+          const leonardoResponse = await axios.post(`${API_URL}/api/get_leonardo_response`, formData);
+          const { input_image_url, generated_image_url } = leonardoResponse.data;
+
+          setInput_image_url(input_image_url);
+          setGeneratedImage(generated_image_url);
+          setIsLoadingImage(false);
+        } catch (error) {
+          setIsLoadingImage(false);
+          handleError(error);
+        }
+      }
+    };
+
+    getLeonardoResponse();
+  }, [description]);
+
+  useEffect(() => {
+    const submitImageDetails = async () => {
+      if (generatedImage) {
+        try {
+          const formData = new FormData();
+          formData.append("input_image_url", input_image_url);
+          formData.append("style", selectedStyle.name);
+          formData.append("gender", selectedGender.name);
+          formData.append("age", age);
+          formData.append("height", height);
+          formData.append("weight", weight);
+          formData.append("description", description);
+          formData.append("keywords", keywords);
+          formData.append("generated_image_url", generatedImage);
+          const response = await axios.post(`${API_URL}/api/submit_image_details`, formData);
+          const { record_id } = response.data;
+
+          setRecordId(record_id);
+        } catch (error) {
+          handleError(error);
+        }
+      }
+    };
+
+    submitImageDetails();
+  }, [generatedImage]);
+
+
+  useEffect(() => {
+    const getProducts = async () => {
+      if (keywords) {
+        try {
+          const keywordArray = keywords.split(',');
+          const requests = keywordArray.map((keyword) => {
+            return axios.post(`${API_URL}/api/get_products`, {
+              keyword: keyword.trim(),
+            });
+          });
+
+          const responses = await Promise.all(requests);
           const product_list = responses.flatMap((response) => {
             if (response.error) {
               console.log(response.error);
@@ -151,17 +187,39 @@ export const UserData = () => {
             }
             return response.data;
           });
+
           setProducts(product_list);
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          console.log(error);
-          setIsLoading(false);
-        });
-    }
-  }, [keywords, recordId]);
+          setIsLoadingProducts(false);
+        } catch (error) {
+          setIsLoadingProducts(false);
+          handleError(error);
+        }
+      }
+    };
+
+    getProducts();
+  }, [keywords]);
 
 
+  useEffect(() => {
+    const saveProducts = async () => {
+      if (products && recordId) {
+        try {
+          const saveData = {
+            products: products,
+            id: recordId,
+          };
+
+          const response = await axios.post(`${API_URL}/api/save_products`, saveData);
+          console.log(response.data.message);
+        } catch (error) {
+          handleError(error);
+        }
+      }
+    };
+
+    saveProducts();
+  }, [products, recordId]);
 
 
   const handleImageUpload = (event) => {
@@ -185,7 +243,7 @@ export const UserData = () => {
 
   return (
     <div className="data_container py-3 py-lg-5">
-      {isLoading && <Loader />}
+      {/* {isLoading && <Loader />} */}
       <div className="container">
         <div className="row">
           <div className="col-12">
@@ -328,7 +386,7 @@ export const UserData = () => {
                         onChange={(e) => setAge(e.target.value)}
                       />
                     </Form.Group>
-                    <p className="text-white mb-0">year</p>
+                    <p className="text-white mb-0">years</p>
                   </div>
                 </div>
 
@@ -342,13 +400,14 @@ export const UserData = () => {
         </div>
       </div>
       {/* 👇️ Result show on click */}
-      {isLoading && <h5>Please wait… the generation can take up to 20 seconds</h5>}
-      {generatedImage && (
-        <Results image_url={generatedImage}/>
-      )}
-      {products && (
-        <ProductSlider products={products} />
-      )}
+      {/* {isLoading && <h5>Please wait… the generation can take up to 20 seconds</h5>} */}
+      <div>
+        {isLoadingImage && <Loader />}
+        {generatedImage && <Results image_url={generatedImage} />}
+
+        {isLoadingProducts && <Loader />}
+        {products && <ProductSlider products={products} />}
+      </div>
     </div>
   );
 };

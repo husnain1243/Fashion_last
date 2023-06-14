@@ -5,25 +5,34 @@ import Form from "react-bootstrap/Form";
 import "../style/boostrap.css";
 import "../style/custom.css";
 import axios from "axios";
+import toast from 'react-hot-toast';
+import { API_URL } from "../utils/constants";
 
 export const ContactForm = () => {
   const [SenderName, setSenderName] = useState("");
   const [SenderEmail, setSenderEmail] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:3000/endpoint", {
-        SenderName: SenderName,
-        SenderEmail: SenderEmail,
-      })
-      .then(() => {
-        console.log("user info sent to backend..");
-      })
-      .catch((error) => {
-        console.log(error);
+    
+    try {
+      await axios.post(`${API_URL}/api/subscribe_newsletter`, {
+        "name": SenderName,
+        "email": SenderEmail,
       });
+      
+      console.log("User info sent to backend.");
+      setSenderName("");
+      setSenderEmail("");
+      toast.success('You have successfully subscribed to our newsletter!');
+      // Display success message or perform any other actions on success
+    } catch (error) {
+      console.log("An error occurred while sending user info:", error);
+      toast.error('An error occurred while subscribing to our newsletter!');
+      // Display error message or perform any other error handling
+    }
   };
+  
   return (
     <div className="contact_form_container w-100">
       <form onSubmit={handleSubmit}>
