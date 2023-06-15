@@ -8,7 +8,7 @@ import "../style/custom.css";
 
 
 
-function RenderingArrayOfObjects() {
+function RenderingArrayOfObjects({languageData}) {
   const [outfits, setOutfits] = useState([]);
 
   useEffect(() => {
@@ -29,7 +29,7 @@ function RenderingArrayOfObjects() {
     <div className="Latestoutfit_container">
       <div className="container">
         <div className="row py-5 px-lg-5">
-          <h3 className="mb-5 text-white">Last Outfits</h3>
+          <h3 className="mb-5 text-white">{languageData.last_outfits_title}</h3>
           <div className="list_container">
             <Slider outfits={outfits} />
           </div>
@@ -38,6 +38,8 @@ function RenderingArrayOfObjects() {
     </div>
   );
 }
-export const LatestOutfit = () => {
-  return <RenderingArrayOfObjects />;
+export const LatestOutfit = ({languageData}) => {
+  if(languageData){
+    return <RenderingArrayOfObjects languageData={languageData} />
+  }
 };

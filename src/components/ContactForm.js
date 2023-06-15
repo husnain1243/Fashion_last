@@ -8,7 +8,7 @@ import axios from "axios";
 import toast from 'react-hot-toast';
 import { API_URL } from "../utils/constants";
 
-export const ContactForm = () => {
+export const ContactForm = ({languageData}) => {
   const [SenderName, setSenderName] = useState("");
   const [SenderEmail, setSenderEmail] = useState("");
 
@@ -42,7 +42,7 @@ export const ContactForm = () => {
               type="text"
               className="form-control bg-transparent text-white text-center btn_form"
               id="exampleInputname"
-              placeholder="Name"
+              placeholder={languageData.name}
               value={SenderName}
               onChange={(e) => setSenderName(e.target.value)}
             />
@@ -55,7 +55,7 @@ export const ContactForm = () => {
               className="form-control bg-transparent text-white text-center btn_form"
               id="exampleInputEmail1"
               aria-describedby="emailHelp"
-              placeholder="Email"
+              placeholder={languageData.email}
               value={SenderEmail}
               onChange={(e) => setSenderEmail(e.target.value)}
             />
@@ -65,7 +65,7 @@ export const ContactForm = () => {
           type="submit"
           className="btn btn-primary bg-white text-black w-50 border mb-5"
         >
-          Subscribe
+          {languageData.subscribe_button}
         </button>
       </form>
     </div>

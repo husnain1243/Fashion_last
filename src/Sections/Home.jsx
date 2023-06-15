@@ -29,8 +29,7 @@ const Home = () => {
   useEffect(() => {
     const fetchLanguageData = async () => {
       try {
-        const language = "en_GB";
-        const response = await axios.get(`${API_URL}/api/language/${language}`);
+        const response = await axios.get(`${API_URL}/api/language/${userCountryCode}`);
         setLanguageData(response.data);
       } catch (error) {
         console.error(error);
@@ -44,10 +43,10 @@ const Home = () => {
   return (
     <div className='"Home_Container'>
       <Navbar />
-      {languageData && <UserData languageData={languageData} />}
-      <LatestOutfit />
-      <AboutUs />
-      <Subscribe />
+      {languageData && <UserData languageData={languageData.form_section} />}
+      {languageData && <LatestOutfit languageData={languageData.last_outfits_section} />}
+      {languageData && <AboutUs languageData={languageData.aboutus_section} />}
+      {languageData && <Subscribe languageData={languageData.subscribe_section} />}
       <Footer />
     </div>
   );

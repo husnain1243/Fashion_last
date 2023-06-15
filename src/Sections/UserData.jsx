@@ -13,59 +13,9 @@ import toast from 'react-hot-toast';
 import ProductSlider from "../components/ProductSlider";
 import Loader from "../components/Loader";
 
-const style = [
-  {
-    name: "Casual",
-  },
-  {
-    name: "Business Casual",
-  },
-  {
-    name: "Formal",
-  },
-  {
-    name: "Athleisure",
-  },
-  {
-    name: "Streetwear",
-  },
-  {
-    name: "Bohemian",
-  },
-  {
-    name: "Vintage",
-  },
-  {
-    name: "Preppy",
-  },
-  {
-    name: "Punk"
-  },
-  {
-    name: "Minimalist"
-  },
-  {
-    name: "Hipster"
-  },
-  {
-    name: "Festival"
-  }
-];
-
-const gender = [
-  {
-    name: "Male",
-  },
-  {
-    name: "Female",
-  },
-  {
-    name: "Other",
-  },
-];
 
 
-export const UserData = ({languageData}) => {
+export const UserData = ({ languageData }) => {
   const [clickedButtonIndex, setClickedButtonIndex] = useState(null);
   const [clickedButtonGender, setClickedButtonGender] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -94,19 +44,30 @@ export const UserData = ({languageData}) => {
 
   const ShownResult = async (event) => {
     event.preventDefault();
+
+    // Check if style, gender, and age are provided
+    if (!selectedStyle || !selectedGender || !age) {
+      // Handle the case when any of the mandatory fields are missing
+      console.log("Please provide values for style, gender, and age.");
+      toast.error("Please provide values for style, gender, and age."); // Show error toast notification
+      return;
+    }
     setIsLoadingImage(true);
     setIsLoadingProducts(true);
     setGeneratedImage(null);
     setProducts(null);
     try {
       const formData = new FormData();
-      formData.append("style", selectedStyle.name);
-      formData.append("gender", selectedGender.name);
+      formData.append("style", selectedStyle);
+      formData.append("gender", selectedGender);
       formData.append("age", age);
       formData.append("height", height);
       formData.append("weight", weight);
 
-      const chatGptResponse = await axios.post(`${API_URL}/api/get_chatgpt_response`, formData);
+      const chatGptResponse = await axios.post(
+        `${API_URL}/api/get_chatgpt_response`,
+        formData
+      );
       const { keywords, description } = chatGptResponse.data;
 
       setKeywords(keywords);
@@ -115,6 +76,7 @@ export const UserData = ({languageData}) => {
       handleError(error);
     }
   };
+
 
   useEffect(() => {
     const getLeonardoResponse = async () => {
@@ -279,7 +241,7 @@ export const UserData = ({languageData}) => {
                 </div>
 
                 <div className="SelectStyle_container">
-                  <h3 className="text-white">{languageData.style_title}</h3>
+                  <h3 className="text-white">{languageData.style_field.style_title}</h3>
 
                   {/* SearchBar...... */}
                   {/* <div className="search_container d-flex flex-row justify-content-center align-items-center mb-5 btn_form">
@@ -301,9 +263,9 @@ export const UserData = ({languageData}) => {
 
                   {/* SearchBar options..... */}
                   <div className="button_container mb-4 d-flex justify-content-center gap-2 flex-wrap">
-                    {style.map((item, index) => {
-                      const btnClasses = `styleBtn${clickedButtonIndex === index ? " active" : ""
-                        }`;
+                    {languageData.style_field.styles.map((item, index) => {
+                      const btnClasses = `styleBtn${clickedButtonIndex === index ? " active" : ""}`;
+                      const translated_style = languageData.style_field.styles_translated[index];
 
                       return (
                         <button
@@ -311,7 +273,7 @@ export const UserData = ({languageData}) => {
                           key={index}
                           className={btnClasses}
                         >
-                          {item.name}
+                          {translated_style}
                         </button>
                       );
                     })}
@@ -320,15 +282,15 @@ export const UserData = ({languageData}) => {
 
                 {/* About..... */}
                 <div className="AboutYou_container">
-                  <h3 className="text-white">{languageData.about_you_title}</h3>
+                  <h3 className="text-white">{languageData.gender_field.gender_title}</h3>
                   <div
                     className="button_container mb-3 d-flex justify-content-center gap-2"
                     style={{ width: "100%" }}
                   >
                     <div className="button_container mb-3 d-flex justify-content-center gap-1 flex-wrap">
-                      {gender.map((item, index) => {
-                        const btnClasses = `stylegender${clickedButtonGender === index ? " active" : ""
-                          }`;
+                      {languageData.gender_field.genders.map((item, index) => {
+                        const btnClasses = `stylegender${clickedButtonGender === index ? " active" : ""}`;
+                        const translated_gender = languageData.gender_field.genders_translated[index];
 
                         return (
                           <button
@@ -337,7 +299,7 @@ export const UserData = ({languageData}) => {
                             className={btnClasses}
                             style={{ width: "150px" }} // Adjust the width as per your requirement
                           >
-                            {item.name}
+                            {translated_gender}
                           </button>
                         );
                       })}
@@ -349,14 +311,14 @@ export const UserData = ({languageData}) => {
                     <Form.Group>
                       <Form.Control
                         type="number"
-                        placeholder={languageData.height_title}
+                        placeholder={languageData.height_field.height_title}
                         min={0}
                         max={200}
                         value={height}
                         onChange={(e) => setHeight(e.target.value)}
                       />
                     </Form.Group>
-                    <p className="text-white mb-0">cm</p>
+                    <p className="text-white mb-0">{languageData.height_field.height_unit}</p>
                   </div>
 
                   {/* Weight........... */}
@@ -364,14 +326,14 @@ export const UserData = ({languageData}) => {
                     <Form.Group>
                       <Form.Control
                         type="number"
-                        placeholder={languageData.weight_title}
+                        placeholder={languageData.weight_field.weight_title}
                         min={0}
                         max={200}
                         value={weight}
                         onChange={(e) => setWeight(e.target.value)}
                       />
                     </Form.Group>
-                    <p className="text-white mb-0">kg</p>
+                    <p className="text-white mb-0">{languageData.weight_field.weight_unit}</p>
                   </div>
 
                   {/* Age........... */}
@@ -379,20 +341,20 @@ export const UserData = ({languageData}) => {
                     <Form.Group>
                       <Form.Control
                         type="number"
-                        placeholder={languageData.age_title}
+                        placeholder={languageData.age_field.age_title}
                         min={0}
                         max={100}
                         value={age}
                         onChange={(e) => setAge(e.target.value)}
                       />
                     </Form.Group>
-                    <p className="text-white mb-0">years</p>
+                    <p className="text-white mb-0">{languageData.age_field.age_unit}</p>
                   </div>
                 </div>
 
                 {/* Generate Style... */}
                 <Button variant="primary" type="submit" onClick={ShownResult}>
-                {languageData.generate_button_title}
+                  {languageData.generate_button_title}
                 </Button>
               </div>
             </form>
