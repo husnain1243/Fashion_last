@@ -19,9 +19,12 @@ class RelatedResult extends Component {
         <Carousel breakPoints={this.breakPoints}>
           {products.map((product, index) => {
             return (
-              <div
+              <a
+                href={product.product_url} target="_blank" rel="noopener noreferrer"
                 className="List-related-result text-white rounded mb-5 d-flex flex-row align-items-center w-75 px-2"
                 key={index}
+                style={{ textDecoration: 'none' }}
+                draggable="false" // Disable dragging
               >
                 <div className="List-image-container">
                   <img
@@ -33,15 +36,13 @@ class RelatedResult extends Component {
                 <div className="List-related-result-body d-flex text-start flex-column align-items-start px-3">
                   <h3>{product.product_name}</h3>
                   <h3>{product.product_price}</h3>
-                  <a href={product.product_url}>
-                    <img
-                      src={arrowImg}
-                      alt="Arrow"
-                      className="rounded-circle img-fluid mx-auto d-block"
-                    />
-                  </a>
+                  <img
+                    src={arrowImg}
+                    alt="Arrow"
+                    className="rounded-circle img-fluid mx-auto d-block"
+                  />
                 </div>
-              </div>
+              </a>
             );
           })}
         </Carousel>

@@ -65,7 +65,7 @@ const gender = [
 ];
 
 
-export const UserData = () => {
+export const UserData = ({languageData}) => {
   const [clickedButtonIndex, setClickedButtonIndex] = useState(null);
   const [clickedButtonGender, setClickedButtonGender] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -257,7 +257,7 @@ export const UserData = () => {
                     htmlFor="upload"
                     className="upload-button mb-5 btn_form border-dashed"
                   >
-                    Click to upload a photo
+                    {languageData.upload_photo_title}
                     <input
                       type="file"
                       id="upload"
@@ -279,7 +279,7 @@ export const UserData = () => {
                 </div>
 
                 <div className="SelectStyle_container">
-                  <h3 className="text-white">Select Your Style</h3>
+                  <h3 className="text-white">{languageData.style_title}</h3>
 
                   {/* SearchBar...... */}
                   {/* <div className="search_container d-flex flex-row justify-content-center align-items-center mb-5 btn_form">
@@ -320,7 +320,7 @@ export const UserData = () => {
 
                 {/* About..... */}
                 <div className="AboutYou_container">
-                  <h3 className="text-white">About You</h3>
+                  <h3 className="text-white">{languageData.about_you_title}</h3>
                   <div
                     className="button_container mb-3 d-flex justify-content-center gap-2"
                     style={{ width: "100%" }}
@@ -349,7 +349,7 @@ export const UserData = () => {
                     <Form.Group>
                       <Form.Control
                         type="number"
-                        placeholder="Your height"
+                        placeholder={languageData.height_title}
                         min={0}
                         max={200}
                         value={height}
@@ -364,7 +364,7 @@ export const UserData = () => {
                     <Form.Group>
                       <Form.Control
                         type="number"
-                        placeholder="Your weight"
+                        placeholder={languageData.weight_title}
                         min={0}
                         max={200}
                         value={weight}
@@ -379,7 +379,7 @@ export const UserData = () => {
                     <Form.Group>
                       <Form.Control
                         type="number"
-                        placeholder="Your age"
+                        placeholder={languageData.age_title}
                         min={0}
                         max={100}
                         value={age}
@@ -392,7 +392,7 @@ export const UserData = () => {
 
                 {/* Generate Style... */}
                 <Button variant="primary" type="submit" onClick={ShownResult}>
-                  Generate Style
+                {languageData.generate_button_title}
                 </Button>
               </div>
             </form>

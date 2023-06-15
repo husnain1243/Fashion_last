@@ -7,39 +7,39 @@ function RenderingArrayOfObjects() {
   const data = [
     {
       Image: card_image,
-      Title: "feature 1",
+      Title: "AI generated Outfit Recommendations",
       Description:
-        "Pons teren. Fasogon hålingar. Makrosm tredat spelangar. Hepp attitydig etnosion. Dunen favis och ninar, presade dåssade. ",
+        "Our application uses advanced AI technology to offer personalized outfit recommendations based on your preferences and the latest fashion trends.",
     },
     {
       Image: card_image,
-      Title: "feature 2",
+      Title: "Seamless Shopping Experience",
       Description:
-        "Pons teren. Fasogon hålingar. Makrosm tredat spelangar. Hepp attitydig etnosion. Dunen favis och ninar, presade dåssade. ",
+        "With integrated Amazon shopping, you can directly find and purchase the clothes and accessories from your recommended outfits without leaving the app.",
     },
     {
       Image: card_image,
-      Title: "feature 3",
+      Title: "Visual Previews",
       Description:
-        "Pons teren. Fasogon hålingar. Makrosm tredat spelangar. Hepp attitydig etnosion. Dunen favis och ninar, presade dåssade. ",
+        "Get a sneak peek of how each recommended outfit would look on you with our AI-driven outfit visualization feature.",
     },
     {
       Image: card_image,
-      Title: "feature 4",
+      Title: "Expanded Shop Selection (coming soon)",
       Description:
-        "Pons teren. Fasogon hålingar. Makrosm tredat spelangar. Hepp attitydig etnosion. Dunen favis och ninar, presade dåssade. ",
+        "We're working on adding more popular and diverse shops to our platform to give you even more clothing options and styles.",
     },
     {
       Image: card_image,
-      Title: "feature 5",
+      Title: "Latest Fashion Trends (coming soon)",
       Description:
-        "Pons teren. Fasogon hålingar. Makrosm tredat spelangar. Hepp attitydig etnosion. Dunen favis och ninar, presade dåssade. ",
+        "Stay ahead of the fashion curve with updates on the latest trends. Our app will soon incorporate trend forecasts into outfit recommendations.",
     },
     {
       Image: card_image,
-      Title: "feature 6",
+      Title: "Digital Wardrobe (coming soon)",
       Description:
-        "Pons teren. Fasogon hålingar. Makrosm tredat spelangar. Hepp attitydig etnosion. Dunen favis och ninar, presade dåssade. ",
+        "Manage and organize your clothes digitally. This upcoming feature will allow you to keep track of what you own, plan outfits with your existing wardrobe, and identify what you might need to add.",
     },
   ];
   const listItems = data.map((e, index) => {
