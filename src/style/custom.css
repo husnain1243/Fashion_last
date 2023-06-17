@@ -403,6 +403,26 @@
   width: 370px !important;
   margin-left: -50px;
 }
+.Latestoutfit_container .carousel .slider-wrapper.axis-horizontal .slider{
+  gap: 20px;
+}
+.EmailUs-section{
+  background-color: #323841;
+}
+.EmailUs-section p
+{
+  font-family: 'Helvetica';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 18px;
+}
+.EmailUs-section .btn_form{
+  border: 1px solid;
+}
+.EmailUs-section .width{
+  padding-bottom: 100px;
+}
 @media only screen and (min-width: 767.98px) {
   .footer-top-container {
     align-items: flex-start !important;
@@ -422,6 +442,9 @@
   }
   .Latestoutfit_container .rec.rec-arrow {
     display: block;
+  }
+  .EmailUs-section .width{
+    padding-bottom: 200px;
   }
 }
 
@@ -485,7 +508,7 @@
     letter-spacing: 0.1em;
     color: #FFFFFF;
   }
-  .subscribe_container h2{
+  .subscribe_container h2 , .EmailUs-section h2{
     font-family: 'Helvetica';
     font-style: normal;
     font-weight: 700;
@@ -612,8 +635,4 @@
   }
 
 
-}
-
-.related-result-container .carousel .slider-wrapper{
-  width: 33% !important;
 }

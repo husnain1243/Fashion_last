@@ -5,6 +5,7 @@ import { UserData } from "./UserData";
 import { AboutUs } from "./AboutUs";
 import { LatestOutfit } from "./LatestOutfit";
 import { Subscribe } from "./Subscribe";
+import {EmailUs} from "../components/EmailUs"
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { API_URL } from "../utils/constants";
@@ -46,6 +47,7 @@ const Home = () => {
       {languageData && <UserData languageData={languageData.form_section} />}
       {languageData && <LatestOutfit languageData={languageData.last_outfits_section} />}
       {languageData && <AboutUs languageData={languageData.aboutus_section} />}
+      <EmailUs/>
       {languageData && <Subscribe languageData={languageData.subscribe_section} />}
       <Footer />
     </div>
