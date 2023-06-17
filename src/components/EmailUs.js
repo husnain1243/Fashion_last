@@ -22,7 +22,7 @@ export const EmailUs = () => {
                     <h2>Contact Us</h2>
                     <p>have any questions or queries? We are always here to help you</p>
                 </div>
-                <div className="col-12">
+                <div className="col-12 col-md-6 m-auto">
                     <div className="contact_form_container w-100">
                         <form onSubmit={handleSubmit}>
                             <div className="form-group mb-4">
